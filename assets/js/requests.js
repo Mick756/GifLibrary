@@ -1,19 +1,9 @@
 $(document).ready(function () {
-    /** 
-     * BEGIN VARIABLES
-    **/
 
     var $buttons = $("<div>").addClass("buttonNav");
     var $gifs = $("<div>").addClass("gifContainer");
     var quickSearches = localStorage.getItem("searches") !== null ? localStorage.getItem("searches").split(",") : ["minecraft", "call of duty", "zombies", "computers", "laptops", "xbox", "ps3", "ps4", "gtav", "left 4 dead", "fortnite", "apex legends"];
     buildPage();
-
-
-    /**
-     * END VARIABLES
-     * 
-     * BEGIN EVENTS
-     */
 
     $(document).on("click", ".gif", function () {
         var $img = $(this);
@@ -30,7 +20,7 @@ $(document).ready(function () {
         if ($input.val().length) {
             generateGifsFromSearch($input.val(), 20);
             if (!quickSearches.includes($input.val())) {
-                quickSearches.push($input.val().toLowerCase());
+                quickSearches.push($input.val().toLowerCase().trim());
                 addGIFButton($input.val());
             }
             $input.val("");
@@ -53,18 +43,14 @@ $(document).ready(function () {
                     addGIFButton(search);
             });
             $input.val("");
+        } else {
+            $gifs.empty();
         }
     });
 
     $(document).on("click", ".gifSearchButton", function () {
-        generateGifsFromSearch($(this).text(), 20);
+        generateGifsFromSearch($(this).text(), 40);
     });
-
-    /**
-     * END EVENTS
-     * 
-     * START FUNCTIONS
-     */
 
     function buildPage() {
         // Generating search bar and buttons
@@ -72,7 +58,7 @@ $(document).ready(function () {
         var $searchContainer = $("<div>").addClass("searchBarContainer");
         var $searchBar = $("<input>").addClass("searchBar");
         var $searchButton = $("<button>").addClass("searchButton").text("Search");
-        var $removeButton = $("<button>").addClass("removeButton").text("Remove");
+        var $removeButton = $("<button>").addClass("removeButton").text("Remove/Clear");
         $(".container").append($searchContainer.append($searchBar, $searchButton, $removeButton), $gifs);
         quickSearches.forEach(search => {
             addGIFButton(search);
@@ -85,13 +71,6 @@ $(document).ready(function () {
         moveElement($button, $buttons);
     }
 
-    /**
-     * 
-     * @param {*} search - Keyword to search from Gihpy 
-     * @param {*} index - Which index of the gifs to recieve
-     * @param {*} limit - how many gifs to return
-     * @returns [title, rating, image url]
-     */
     function generateGifsFromSearch(search, limit) {
         $gifs.empty();
         for (let i = 0; i < limit; i++) {
@@ -100,24 +79,23 @@ $(document).ready(function () {
                 method: "GET"
             }).then(response => {
                 var $newGifElement = $("<div>").addClass("gifElement");
-                var title = response.data[i].title.toUpperCase().replace("GIF", "").split(" ");
+                var $dataDiv = $("<div>").addClass("gifDataContainer");
+                var $pictureDiv = $("<div>").addClass("gifPictureContainer");
+                var title = response.data[i].title.toUpperCase().replace("GIF", "").split(" ");    
                 var $gifTitle = $("<div>").addClass("gifTitle").text("Title: " + title[0]);
                 var $gifRating = $("<div>").addClass("gifRating").text("Rating: " + response.data[i].rating.toUpperCase());
+                $dataDiv.append($gifTitle, $gifRating);
                 var $gif = $("<img>").addClass("gif").attr("src", response.data[i].images.original_still.url).attr("movingPicture", response.data[i].images.original.url).attr("stillPicture", response.data[i].images.original_still.url);
-                $newGifElement.append($gifTitle, $gifRating, $gif);
+                $pictureDiv.append($gif);
+                $newGifElement.append($dataDiv, $pictureDiv);
                 $gifs.append($newGifElement);
             });
         }
     }
 
-    /**
-     * @param {*} element - to move
-     * @param {*} to - where to move 'element'
-     */
     function moveElement(element, to) {
         var $elm = $(element);
         $elm.detach();
         $(to).append($elm);
-
     }
 });
