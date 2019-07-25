@@ -3,7 +3,7 @@ body {
 }
 .buttonNav {
     padding: 10px;
-    margin: 10px 3%;
+    margin: 5px 2%;
 }
 .gifSearchButton {
     margin: 5px;
@@ -14,12 +14,11 @@ body {
     padding: 10px;
     font-size: 20px;
     font-weight: 700;
-
 }
 .searchBar {
-    width: 70%;
+    width: 57%;
     padding: 22px;
-    margin: 10px;
+    margin: 20px 5px;
     border: 2px solid black;
     background-color: lightgray;
 }
@@ -30,6 +29,16 @@ body {
     background-color: cadetblue;
     font-size: 20px;
     font-weight: 700;
+    margin: 5px;
+}
+.removeButton {
+    padding: 20px;
+    width: 20%;
+    border: 2px solid black;
+    background-color: cadetblue;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 5px;
 }
 .gifElement {
     float: left;
