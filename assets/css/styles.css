@@ -1,0 +1,25 @@
+body {
+    background-image: url("../images/chalkboard.jpg");
+}
+.buttonNav {
+    padding: 10px;
+    margin: 10px 3%;
+}
+.gifSearchButton {
+    margin: 5px;
+    background-color: cadetblue;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 700;
+
+}
+.searchBar {
+    right: 100%;
+    padding: 10px;
+}
+.searchButton {
+    
+}
